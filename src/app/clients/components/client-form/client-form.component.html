@@ -1,0 +1,57 @@
+<form #form="ngForm" (ngSubmit)="onSubmit(form)" class="container">
+  <div class="row">
+    <div class="col-12">
+      <mat-form-field class="fil-col">
+        <mat-label>Nome</mat-label>
+        <input matInput name="name" id="name" #nameModel="ngModel" [(ngModel)]="client.name" required>
+
+        <mat-error *ngIf="nameModel.hasError('required')">
+          Informe um nome válido
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="row">
+      <div class="col-6">
+        <mat-form-field class="fil-col">
+          <mat-label>E-mail</mat-label>
+          <input matInput name="email" id="email" #emailModel="ngModel" [(ngModel)]="client.email" required email>
+
+          <mat-error *ngIf="emailModel.hasError('required')">
+            O e-mail é obrigatório
+          </mat-error>
+          <mat-error *ngIf="emailModel.hasError('email')">
+            Informe um e-mail válido
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="col-6">
+        <mat-form-field class="fil-col">
+          <mat-label>Celular</mat-label>
+          <input matInput name="phone" id="phone" #phoneModel="ngModel" [(ngModel)]="client.phone" required [mask]="'(00) 00000-0000'">
+
+          <mat-error *ngIf="phoneModel.hasError('required')">
+            O número de celular é obrigatório
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="col-6">
+        <mat-form-field class="fil-col">
+          <mat-label>Senha</mat-label>
+          <input matInput name="senha" id="senha" #senhaModel="ngModel" [(ngModel)]="client.password" required type="password">
+
+          <mat-error *ngIf="senhaModel.hasError('required')">
+            A senha é obrigatória
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+
+    <button mat-button type="submit" [disabled]="form.invalid">Cadastrar</button>
+
+
+
+</form>
