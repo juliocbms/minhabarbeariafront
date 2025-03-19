@@ -13,7 +13,7 @@ import { LoginCLientRequest } from '../../services/api-client/clients/client.mod
   selector: 'app-login',
   imports: [ClientFormLoginComponent],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.scss',
+  styleUrls: ['./login.component.scss'],
 
   providers: [
     {
@@ -27,7 +27,7 @@ export class LoginComponent implements OnDestroy {
   private httpSubscription?: Subscription;
 
   constructor(
-    @Inject(SERVICES_TOKEN.HTTP.CLIENT) private readonly httpService: IClienteService,
+    @Inject(SERVICES_TOKEN.HTTP.CLIENT) private readonly clientService: IClienteService,
     @Inject(SERVICES_TOKEN.SNACKBAR) private readonly snackBarManager: SnackbarManagerService,
     private readonly router: Router
   ) {}
@@ -39,25 +39,14 @@ export class LoginComponent implements OnDestroy {
   }
 
   onSubmitClient(value: ClientMOdelFormLogin) {
-    const { email, password } = value;
-
-
-    const loginRequest: LoginCLientRequest = {
-      email: email,
-      password: password
-    };
-
-
-    this.httpSubscription = this.httpService.login(loginRequest).subscribe({
+    this.clientService.login(value).subscribe({
       next: (response) => {
-
-        this.snackBarManager.show('Usuário logado com sucesso!');
+        this.snackBarManager.show('Login realizado com sucesso!');
+        localStorage.setItem('authToken', response.token);
         this.router.navigate(['clients/list']);
       },
       error: (error) => {
-
-        console.error(error);
-        this.snackBarManager.show('Erro ao tentar fazer login.');
+        this.snackBarManager.show('Erro ao fazer login. Tente novamente.');
       }
     });
   }

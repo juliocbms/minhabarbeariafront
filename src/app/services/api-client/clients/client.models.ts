@@ -50,12 +50,9 @@ export interface DetailCLientResponse {
 
 export interface LoginCLientRequest {
 
-  email: string
   password: string
 }
 
 export interface LoginCLientResponse {
-
-  email: string
-  password: string
+  token: string
 }

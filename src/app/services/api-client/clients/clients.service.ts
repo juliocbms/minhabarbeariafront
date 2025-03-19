@@ -13,8 +13,10 @@ export class ClientsService implements IClienteService{
   private readonly basePath = environment.apiUrl
 
   constructor(private http: HttpClient) { }
+
+
   login(request: LoginCLientRequest): Observable<LoginCLientResponse> {
-    return this.http.post<LoginCLientResponse>(`${this.basePath}`, request);
+    return this.http.post<LoginCLientResponse>(`${this.basePath}clients/login`, request);
   }
 
 

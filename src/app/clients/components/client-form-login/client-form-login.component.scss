@@ -1,26 +1,46 @@
-.fil-col{
-  width: 100%
+.fil-col {
+  width: 100%;
 }
 
-.div-button{
-  padding-top: 2rem;
+.container {
   display: flex;
-  justify-content: center;
-  align-items:center ;
-
-}
-
-.container{
-  display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   width: 500px;
 }
 
-.botao{
+.botao-container {
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.botao {
 
 }
 
+.cadastre-se {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-top: -2px;
+  padding-right: 15px;
+  font-size: 14px;
+
+
+
+}
+
+.cadastre-se p {
+  margin: 0;
+  cursor: pointer;
+  font-weight:550;
+  color: #005cbb;
+
+}
+
+.cadastre-se  a {
+  text-decoration: none;
+
+}
