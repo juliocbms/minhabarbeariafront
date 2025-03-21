@@ -1,4 +1,7 @@
-<app-card-header>{{title}}</app-card-header>
-
-<app-menu-bar></app-menu-bar>
-<router-outlet />
+<div class="app-container">
+  <app-side-bar></app-side-bar>
+  <div class="main-content">
+    <app-main-content></app-main-content>
+    <router-outlet></router-outlet>
+  </div>
+</div>

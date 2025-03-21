@@ -5,7 +5,7 @@
 
 .sidenav {
   width: 250px;
-  background-color: #f8f9fa; /* Cor de fundo */
+  background-color: #ffffff;
   padding-top: 10px;
 }
 
@@ -30,6 +30,20 @@ mat-list-item {
   align-items: center;
 }
 
+mat-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
 mat-icon {
-  margin-right: 10px;
+  cursor: pointer;
+}
+
+
+@media (max-width: 768px) {
+  .sidenav {
+    width: 200px;
+    overflow: hidden;
+  }
 }

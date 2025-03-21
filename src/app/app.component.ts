@@ -1,12 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
-import { CardHeaderComponent } from "./commons/components/card-header/card-header.component";
 import { filter, map, Subscription } from 'rxjs';
-import { MenuBarComponent } from './commons/components/menu-bar/menu-bar.component';
+import { SideBarComponent } from "./commons/components/side-bar/side-bar.component";
+import { MainContentComponent } from "./commons/components/main-content/main-content.component";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, CardHeaderComponent, MenuBarComponent],
+  imports: [RouterOutlet, SideBarComponent, MainContentComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
