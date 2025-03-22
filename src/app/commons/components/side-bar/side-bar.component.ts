@@ -6,6 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-side-bar',
@@ -23,28 +24,28 @@ import { MatButtonModule } from '@angular/material/button';
 })
 export class SideBarComponent implements AfterViewInit {
   @ViewChild('sidenav') sidenav!: MatSidenav;
-  isSmallScreen = false;
 
-  constructor() {
+
+  constructor(private cdr: ChangeDetectorRef) {
+
   }
 
   ngAfterViewInit() {
-    this.checkScreenSize();
-  }
-  @HostListener('window:resize', ['$event'])
-  checkScreenSize() {
-    this.isSmallScreen = window.innerWidth < 735;
 
-  if (this.sidenav) {
-    if (this.isSmallScreen) {
-      this.sidenav.mode = 'over';
-      this.sidenav.close();
-    } else {
-      this.sidenav.mode = 'side';
-      this.sidenav.open();
-    }
+    this.cdr.detectChanges();
+  }
+  isSmallScreen = window.innerWidth < 768;
+  isSidebarOpen = false;
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: Event) {
+    this.isSmallScreen = window.innerWidth < 768;
+  }
+
+  toggleSidebar() {
+    this.isSidebarOpen = !this.isSidebarOpen;
   }
 }
-}
+
 
 

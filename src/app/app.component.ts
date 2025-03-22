@@ -6,7 +6,7 @@ import { MainContentComponent } from "./commons/components/main-content/main-con
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, SideBarComponent, MainContentComponent],
+  imports: [RouterOutlet],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
@@ -44,5 +44,4 @@ export class AppComponent implements OnInit, OnDestroy{
     return child.snapshot.data['title'] || 'Default Title';
   }
 }
-
 

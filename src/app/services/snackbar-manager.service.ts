@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { ISnackbarManageService } from './isnackbar-manager.service';
+import { ISnackbarManagerService } from './isnackbar-manager.service';
 import { MatSnackBar } from '@angular/material/snack-bar'
 
 @Injectable({
   providedIn: 'root'
 })
-export class SnackbarManagerService implements ISnackbarManageService{
+export class SnackbarManagerService implements ISnackbarManagerService{
 
   constructor(private readonly snackBar: MatSnackBar) { }
 

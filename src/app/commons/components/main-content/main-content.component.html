@@ -1,30 +1,84 @@
-<div class="container">
-  <mat-card class="plano">
-    <mat-card-header>
-      <mat-card-title>Seu plano</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <p>Você ainda não assinou um plano. Contrate e aproveite os benefícios.</p>
-      <button mat-raised-button color="primary">Contrate um plano</button>
-    </mat-card-content>
-  </mat-card>
+<div class="app-container">
+  <app-side-bar></app-side-bar>
+  <div class="main-content">
+    <div class="container">
+      <mat-card class="plano">
+        <mat-card-header>
+          <mat-card-title>Seu plano</mat-card-title>
+        </mat-card-header>
+        <mat-card-content >
+          <p>Você ainda não assinou um plano. Contrate e aproveite os benefícios.</p>
+          <button class="button" mat-raised-button color="primary">Contrate um plano<mat-icon class="seta">arrow_forward</mat-icon> </button>
+        </mat-card-content>
+      </mat-card>
 
-  <mat-card class="mt-20">
-    <mat-card-header>
-      <mat-card-title>Conheça o Clube de Assinatura Meu Chefe</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <p>e pegue seu cupom com vantagens</p>
-    </mat-card-content>
-  </mat-card>
+      <mat-card class="assinaturas">
+        <mat-card-header>
+          <mat-card-title>Conheça o Clube de Assinatura</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p>e pegue seu cupom com vantagens</p>
+        </mat-card-content>
+      </mat-card>
 
-  <mat-card class="mt-20">
-    <mat-card-header>
-      <mat-card-title>Próximos agendamentos</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <p>Você não tem nenhum agendamento marcado</p>
-      <button mat-raised-button color="accent">+ Novo agendamento</button>
-    </mat-card-content>
-  </mat-card>
+      <mat-card class="agendamentos">
+        <mat-card-header>
+          <mat-card-title>Próximos agendamentos</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+            <ng-container matColumnDef="id">
+              <th mat-header-cell *matHeaderCellDef> ID </th>
+              <td mat-cell *matCellDef="let element"> {{ element.id }} </td>
+            </ng-container>
+
+
+            <ng-container matColumnDef="clientName">
+              <th mat-header-cell *matHeaderCellDef> Cliente </th>
+              <td mat-cell *matCellDef="let element"> {{ element.clientName }} </td>
+            </ng-container>
+
+
+            <ng-container matColumnDef="barbeiroName">
+              <th mat-header-cell *matHeaderCellDef> Barbeiro </th>
+              <td mat-cell *matCellDef="let element"> {{ element.barbeiroName }} </td>
+            </ng-container>
+
+
+            <ng-container matColumnDef="day">
+              <th mat-header-cell *matHeaderCellDef> Data </th>
+              <td mat-cell *matCellDef="let element"> {{ element.day | date:'dd/MM/yyyy' }} </td>
+            </ng-container>
+
+
+            <ng-container matColumnDef="startAt">
+              <th mat-header-cell *matHeaderCellDef> Início </th>
+              <td mat-cell *matCellDef="let element"> {{ element.startAt | date:'HH:mm' }} </td>
+            </ng-container>
+
+
+            <ng-container matColumnDef="endAt">
+              <th mat-header-cell *matHeaderCellDef> Fim </th>
+              <td mat-cell *matCellDef="let element"> {{ element.endAt | date:'HH:mm' }} </td>
+            </ng-container>
+
+
+            <ng-container matColumnDef="status">
+              <th mat-header-cell *matHeaderCellDef> Status </th>
+              <td mat-cell *matCellDef="let element"> {{ element.status }} </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+        </mat-card-content>
+
+      </mat-card>
+      <button class="button_new" mat-raised-button color="accent">+ Novo agendamento</button>
+    </div>
+
+  </div>
 </div>
+
+

@@ -41,11 +41,28 @@ export class LoginComponent implements OnDestroy {
   onSubmitClient(value: ClientMOdelFormLogin) {
     this.clientService.login(value).subscribe({
       next: (response) => {
+        console.log('Resposta da API:', response); // Log para inspecionar a resposta
         this.snackBarManager.show('Login realizado com sucesso!');
         localStorage.setItem('authToken', response.token);
-        this.router.navigate(['clients/list']);
+
+        if (response.token) {
+          try {
+            const tokenPayload = JSON.parse(atob(response.token.split('.')[1]));
+            console.log('Payload do Token:', tokenPayload); // Log para verificar o conteúdo do payload
+            if (tokenPayload.id) {
+              localStorage.setItem('userId', tokenPayload.id);
+            }
+          } catch (error) {
+            this.snackBarManager.show('Erro ao processar o token.');
+            console.error('Erro ao processar o token', error);
+          }
+        } else {
+          this.snackBarManager.show('Token de autenticação não encontrado.');
+        }
+
+        this.router.navigate(['agendamentos/clients/inicio']);
       },
-      error: (error) => {
+      error: () => {
         this.snackBarManager.show('Erro ao fazer login. Tente novamente.');
       }
     });

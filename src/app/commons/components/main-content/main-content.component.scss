@@ -1,13 +1,85 @@
 .container{
-  width: 100%;
+  width: 650px;
+  height: 700px;
+  padding-top: 100px;
 }
 
-.mt-20 {
-  margin-top: 20px;
-}
+
 
 .plano{
+  margin-top: 20px;
   background-color: white;
   border-radius: 5px;
   border: 0px;
+  border: none !important;
+  box-shadow: none !important;
 }
+
+.button > .seta{
+  height: 12px;
+  font-size: 14px;
+  font-weight: 300;
+}
+
+.button{
+
+  border: none !important;
+  box-shadow: none !important;
+  font-weight: 500;
+  background-color: white;
+}
+
+.assinaturas{
+  margin-top: 20px;
+  height: 150px;
+  border: none !important;
+  box-shadow: none !important;
+  background: linear-gradient(to right, black,rgb(133, 132, 132) 140%);
+  color: white;
+  justify-content: center;
+}
+
+.agendamentos{
+  margin-top: 20px;
+  background-color: white;
+  border: none !important;
+  box-shadow: none !important;
+  height: 400px;
+  padding-bottom: 40px;
+}
+
+.button_new{
+  border: none !important;
+  box-shadow: none !important;
+  font-weight: 500;
+  background-color: white;
+}
+
+@media (max-width: 999px) {
+  .container {
+    width: 100%;
+  }
+}
+
+.app-container {
+  display: flex;
+  height: 100vh;
+}
+
+app-side-bar {
+
+  height: 100vh;
+}
+
+.main-content {
+  background-color: #f7f9fa;
+  width: 600px;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+
