@@ -46,6 +46,7 @@
   box-shadow: none !important;
   height: 400px;
   padding-bottom: 40px;
+
 }
 
 .button_new{
@@ -55,11 +56,35 @@
   background-color: white;
 }
 
-@media (max-width: 999px) {
+@media (max-width: 890px) {
   .container {
     width: 100%;
+    padding: 0 10px;
   }
 }
+
+@media (max-width: 890px) {
+  .agendamentos {
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  .mat-table {
+    width: 100%;
+    min-width: 320px;
+  }
+
+  .mat-header-row, .mat-row {
+    display: block;
+    width: 100%;
+  }
+
+  table.mat-table th, table.mat-table td {
+    word-wrap: break-word;
+    white-space: normal;
+  }
+}
+
 
 .app-container {
   display: flex;

@@ -1,7 +1,7 @@
 export interface ScheduleAppointmentFilterhResponse {
   id: number
-  start_At?: string
-  end_At?: string
+  dataInicio?: string
+  dataFim?: string
   status?: string
   year?: number
   month?:any

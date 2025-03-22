@@ -48,12 +48,12 @@ export class MainContentComponent implements OnInit {
 
     const userIdNumber = Number(userId);
 
-    const status = "ACEITO"
+    const status = "PENDENTE"
 
     const request: ScheduleAppointmentFilterhResponse = {
       id: userIdNumber,
-      start_At: '',
-      end_At: '',
+      dataInicio: '',
+      dataFim: '',
       status: status,
       scheduledAppointments: []
     };
