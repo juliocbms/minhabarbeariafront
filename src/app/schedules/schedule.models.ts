@@ -29,4 +29,5 @@ export interface SaveScheduleModel {
 export interface SelectClientModel {
   id: number
   name: string
+  role: string
 }

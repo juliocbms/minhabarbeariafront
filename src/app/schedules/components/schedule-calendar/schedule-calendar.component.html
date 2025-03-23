@@ -29,7 +29,7 @@
                           <mat-label>Selecione o barbeiro</mat-label>
                           <mat-select name="barbeiroId" id="barbeiroId" #barbeiroIdModel="ngModel"
                               [(ngModel)]="newSchedule.barbeiroId" required>
-                              <mat-option *ngFor="let barbeiro of clients" [value]="barbeiro.id">
+                              <mat-option *ngFor="let barbeiro of barbers" [value]="barbeiro.id">
                                   {{barbeiro.name}}
                               </mat-option>
                           </mat-select>
@@ -50,61 +50,6 @@
           <mat-card class="calendar-card">
               <mat-calendar [(selected)]="selected"></mat-calendar>
           </mat-card>
-      </div>
-      <div class="col-6">
-        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-
-
-          <ng-container matColumnDef="id">
-            <th mat-header-cell *matHeaderCellDef>ID</th>
-            <td mat-cell *matCellDef="let schedule">{{schedule.id}}</td>
-          </ng-container>
-
-
-          <ng-container matColumnDef="clientName">
-            <th mat-header-cell *matHeaderCellDef>Cliente</th>
-            <td mat-cell *matCellDef="let schedule">{{schedule.clientName}}</td>
-          </ng-container>
-
-
-          <ng-container matColumnDef="barbeiroName">
-            <th mat-header-cell *matHeaderCellDef>Barbeiro</th>
-            <td mat-cell *matCellDef="let schedule">{{schedule.barbeiroName}}</td>
-          </ng-container>
-
-
-          <ng-container matColumnDef="startAt">
-            <th mat-header-cell *matHeaderCellDef>Início</th>
-            <td mat-cell *matCellDef="let schedule">{{schedule.startAt | date:'HH:mm'}}</td>
-          </ng-container>
-
-
-          <ng-container matColumnDef="endAt">
-            <th mat-header-cell *matHeaderCellDef>Término</th>
-            <td mat-cell *matCellDef="let schedule">{{schedule.endAt | date:'HH:mm'}}</td>
-          </ng-container>
-
-
-          <ng-container matColumnDef="status">
-            <th mat-header-cell *matHeaderCellDef>Status</th>
-            <td mat-cell *matCellDef="let schedule">{{schedule.status}}</td>
-          </ng-container>
-
-
-          <ng-container matColumnDef="actions">
-            <th mat-header-cell *matHeaderCellDef>Ações</th>
-            <td mat-cell *matCellDef="let schedule">
-              <button mat-mini-fab extended matTooltip="excluir" (click)="requestDelete(schedule)">
-                <mat-icon>delete</mat-icon>
-              </button>
-            </td>
-          </ng-container>
-
-
-          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-        </table>
-          <mat-paginator [pageSizeOptions]="[3, 6, 9]" showFirstLastButton></mat-paginator>
       </div>
   </div>
 </div>

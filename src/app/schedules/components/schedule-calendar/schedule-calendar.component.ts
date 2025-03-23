@@ -20,6 +20,7 @@ import { MatTimepickerModule } from '@angular/material/timepicker';
 import { YesNoDialogComponent } from '../../../commons/components/yes-no-dialog/yes-no-dialog.component';
 import { Subscription } from 'rxjs';
 import { ClientScheduleAppointmentResponse, ScheduleAppointmentFilterhResponse } from '../../../services/api-client/schedules/schedule.models';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-schedule-calendar',
@@ -47,7 +48,7 @@ import { ClientScheduleAppointmentResponse, ScheduleAppointmentFilterhResponse }
     }
   ]
 })
-export class ScheduleCalendarComponent implements OnDestroy, AfterViewInit, OnChanges {
+export class ScheduleCalendarComponent implements OnDestroy, AfterViewInit, OnChanges, OnInit {
 
   private subscription?: Subscription
 
@@ -64,7 +65,18 @@ export class ScheduleCalendarComponent implements OnDestroy, AfterViewInit, OnCh
   clientSelectFormControl = new FormControl()
 
   @Input() monthSchedule!: ScheduleAppointmentFilterhResponse
-  @Input() clients: SelectClientModel[] = []
+  @Input() barbers: SelectClientModel[] = []
+
+  @Input() set clients(clients: SelectClientModel[]) {
+    this._barbers = clients;
+    this.barbers = clients.filter(client => client.role === 'BARBEIRO');
+  }
+
+  get clients(): SelectClientModel[] {
+    return this._barbers;
+  }
+
+  private _barbers: SelectClientModel[] = [];
 
   @Output() onDateChange = new EventEmitter<Date>()
   @Output() onConfirmDelete = new EventEmitter<ClientScheduleAppointmentResponse>()
@@ -72,7 +84,21 @@ export class ScheduleCalendarComponent implements OnDestroy, AfterViewInit, OnCh
 
   @ViewChild(MatPaginator) paginator!: MatPaginator
 
-  constructor(@Inject(SERVICES_TOKEN.DIALOG) private readonly dialogManagerService: IDialogManagerService) { }
+  constructor(@Inject(SERVICES_TOKEN.DIALOG) private readonly dialogManagerService: IDialogManagerService,
+  private readonly router: Router) { }
+
+
+  ngOnInit() {
+    const userId = localStorage.getItem('userId');
+
+  if (!userId) {
+    console.warn('Nenhum usuário logado.');
+    return;
+  }
+
+  console.log('User ID do localStorage:', userId);
+  this.newSchedule.clientId = Number(userId);
+  }
 
   get selected(): Date {
     return this._selected
@@ -105,19 +131,22 @@ export class ScheduleCalendarComponent implements OnDestroy, AfterViewInit, OnCh
   }
 
   onSubmit(form: NgForm) {
+    console.log('onSubmit chamado!', this.newSchedule);
     if (this.newSchedule.startAt && this.newSchedule.endAt && this.newSchedule.clientId && this.newSchedule.barbeiroId && this.newSchedule.status && this.newSchedule.data_agendamento) {
       const saved: SaveScheduleModel = {
         startAt: this.newSchedule.startAt,
         endAt: this.newSchedule.endAt,
         clientId: this.newSchedule.clientId,
         barbeiroId: this.newSchedule.barbeiroId,
-        status: this.newSchedule.status,
+        status: 'PENDENTE',
         data_agendamento: this.newSchedule.data_agendamento
       };
+      console.log('Dados enviados para o componente pai:', saved);
       this.onScheduleClient.emit(saved);
       form.resetForm();
-      this.newSchedule = { startAt: undefined, endAt: undefined, clientId: undefined, barbeiroId: undefined, status: undefined, data_agendamento: undefined };
+      this.newSchedule = { startAt: undefined, endAt: undefined, clientId: this.newSchedule.clientId, barbeiroId: undefined, status: undefined, data_agendamento: undefined };
     }
+    //this.router.navigate(['agendamentos/clients/inicio']);
   }
 
   requestDelete(schedule: ClientScheduleAppointmentResponse) {
@@ -144,7 +173,7 @@ export class ScheduleCalendarComponent implements OnDestroy, AfterViewInit, OnCh
 
   private buildTable() {
     const selectedYear = this._selected.getFullYear();
-    const selectedMonth = this._selected.getMonth() + 1; // getMonth() retorna 0-11
+    const selectedMonth = this._selected.getMonth() + 1;
     const selectedDay = this._selected.getDate();
 
     const appointments = this.monthSchedule.scheduledAppointments.filter(a => {

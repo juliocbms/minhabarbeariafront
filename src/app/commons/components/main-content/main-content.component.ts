@@ -12,6 +12,8 @@ import { SchedulesService } from '../../../services/api-client/schedules/schedul
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { ClientScheduleAppointmentResponse, GetAppointmentsRequest, ScheduleAppointmentFilterhResponse } from '../../../services/api-client/schedules/schedule.models';
+import { Router } from '@angular/router';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-main-content',
@@ -20,6 +22,7 @@ import { ClientScheduleAppointmentResponse, GetAppointmentsRequest, ScheduleAppo
     MatCardHeader,
     MatCardContent,
     MatIcon,
+    MatPaginatorModule,
     CommonModule, SideBarComponent,
     MatButtonModule, MatTableModule],
   templateUrl: './main-content.component.html',
@@ -31,7 +34,9 @@ export class MainContentComponent implements OnInit {
 
   selectedStatus: string = '';
 
-  constructor(private scheduleService: SchedulesService) {}
+  constructor(private scheduleService: SchedulesService,
+    private readonly router: Router
+  ) {}
 
   ngOnInit(): void {
     this.fetchAppointments();
@@ -92,5 +97,9 @@ export class MainContentComponent implements OnInit {
 
   toggleSidenav(sidenav: any) {
     sidenav.toggle();
+  }
+
+  navigateToNewSchedule(): void {
+    this.router.navigate(['agendamentos/save'])
   }
 }

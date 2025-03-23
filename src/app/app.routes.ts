@@ -13,7 +13,7 @@ export const routes: Routes = [
     {path: 'agendamentos/clients/inicio', component:MainContentComponent, data: {title: 'inicio'}},
     {path: 'clients/new-client', component:NewClientComponent , data: {title: 'Cadastro'}},
     {path: 'clients/list', component: ListClientsComponent, data: {title: 'Clientes Cadastrados'}},
-    {path: 'schedules/month', component:SchedulesMonthComponent , data: {title: 'Agendamentos'}},
+    {path: 'agendamentos/save', component:SchedulesMonthComponent , data: {title: 'Agendamentos'}},
     {path: '*', redirectTo: 'schedules/month' },
 
 ];

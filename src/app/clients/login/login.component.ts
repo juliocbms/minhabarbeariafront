@@ -41,14 +41,14 @@ export class LoginComponent implements OnDestroy {
   onSubmitClient(value: ClientMOdelFormLogin) {
     this.clientService.login(value).subscribe({
       next: (response) => {
-        console.log('Resposta da API:', response); // Log para inspecionar a resposta
+        console.log('Resposta da API:', response);
         this.snackBarManager.show('Login realizado com sucesso!');
         localStorage.setItem('authToken', response.token);
 
         if (response.token) {
           try {
             const tokenPayload = JSON.parse(atob(response.token.split('.')[1]));
-            console.log('Payload do Token:', tokenPayload); // Log para verificar o conteúdo do payload
+            console.log('Payload do Token:', tokenPayload);
             if (tokenPayload.id) {
               localStorage.setItem('userId', tokenPayload.id);
             }

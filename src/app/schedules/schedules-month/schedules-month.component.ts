@@ -8,12 +8,15 @@ import { SchedulesService } from '../../services/api-client/schedules/schedules.
 import { ClientsService } from '../../services/api-client/clients/clients.service';
 import { SnackbarManagerService } from '../../services/snackbar-manager.service';
 import { Subscription } from 'rxjs';
-import { ClientScheduleAppointmentModel, SaveScheduleModel, SelectClientModel } from '../schedule.models';
+import {  SaveScheduleModel, SelectClientModel } from '../schedule.models';
+import { SideBarComponent } from '../../commons/components/side-bar/side-bar.component';
 import { ClientScheduleAppointmentResponse, SaveScheduleRequest, ScheduleAppointmentFilterhResponse } from '../../services/api-client/schedules/schedule.models';
 
 @Component({
   selector: 'app-schedules-month',
-  imports: [ScheduleCalendarComponent],
+  imports: [ScheduleCalendarComponent,
+    SideBarComponent
+  ],
   templateUrl: './schedules-month.component.html',
   styleUrl: './schedules-month.component.scss',
   providers: [
@@ -28,7 +31,7 @@ export class SchedulesMonthComponent implements OnInit, OnDestroy {
   private selectedDate?: Date
 
   monthSchedule!: ScheduleAppointmentFilterhResponse
-  clients: SelectClientModel[] = []
+  barbeiros: SelectClientModel[] = []
 
   constructor(
     @Inject(SERVICES_TOKEN.HTTP.SCHEDULE) private readonly httpService: IScheduleService,
@@ -37,14 +40,15 @@ export class SchedulesMonthComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.fetchSchedules(new Date());
+    //this.fetchSchedules(new Date());
     this.subscriptions.push(
       this.clientHttpService.list().subscribe(data => {
-        this.clients = data
+        this.barbeiros = data
           .filter(client => client.role === 'BARBEIRO')
           .map(client => ({
             id: client.id,
-            name: client.name
+            name: client.name,
+            role: client.role
           }));
       })
     );
@@ -66,6 +70,7 @@ export class SchedulesMonthComponent implements OnInit, OnDestroy {
   onScheduleClient(schedule: SaveScheduleModel) {
     if (schedule.startAt && schedule.endAt && schedule.clientId && schedule.status && schedule.data_agendamento) {
       const request: SaveScheduleRequest = { startAt: schedule.startAt, endAt: schedule.endAt, clientId: schedule.clientId, barbeiroId: schedule.barbeiroId || 0, status: schedule.status, data_agendamento: schedule.data_agendamento }
+      console.log('Dados enviados para a API:', request);
       this.subscriptions.push(this.httpService.save(request).subscribe(() => {
         this.snackbarManage.show('Agendamento realizado com sucesso')
         if (this.selectedDate) {

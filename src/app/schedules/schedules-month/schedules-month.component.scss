@@ -1,3 +1,54 @@
 .calendar{
   width: 100%;
 }
+
+@media (max-width: 900px) {
+  .container {
+    width: 100%;
+    padding: 0 10px;
+  }
+}
+
+@media (max-width: 890px) {
+  .agendamentos {
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  .mat-table {
+    width: 100%;
+    min-width: 320px;
+  }
+
+  .mat-header-row, .mat-row {
+    display: block;
+    width: 100%;
+  }
+
+  table.mat-table th, table.mat-table td {
+    word-wrap: break-word;
+    white-space: normal;
+  }
+}
+
+
+.app-container {
+  display: flex;
+  height: 100vh;
+}
+
+app-side-bar {
+
+  height: 100vh;
+}
+
+.main-content {
+  background-color: #f7f9fa;
+  width: 100%;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+}
