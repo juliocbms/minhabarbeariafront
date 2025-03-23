@@ -18,12 +18,12 @@ export interface ClientScheduleAppointmentModel {
 }
 
 export interface SaveScheduleModel {
-  startAt?: Date
-  endAt?: Date
+  startAt?: string
+  endAt?: string
   clientId?: number
   barbeiroId?: number
   status?: string
-  data_agendamento?: Date
+  data_agendamento?: string
 }
 
 export interface SelectClientModel {

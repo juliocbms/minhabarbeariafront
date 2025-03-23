@@ -132,10 +132,24 @@ export class ScheduleCalendarComponent implements OnDestroy, AfterViewInit, OnCh
 
   onSubmit(form: NgForm) {
     console.log('onSubmit chamado!', this.newSchedule);
-    if (this.newSchedule.startAt && this.newSchedule.endAt && this.newSchedule.clientId && this.newSchedule.barbeiroId && this.newSchedule.status && this.newSchedule.data_agendamento) {
+    if (this.newSchedule.startAt && this.newSchedule.endAt && this.newSchedule.clientId && this.newSchedule.barbeiroId) {
+      this.newSchedule.status = "PENDENTE";
+      const startAtDate = new Date(this.newSchedule.startAt);
+      startAtDate.setHours(startAtDate.getHours() - 3);
+
+      const endAtDate = new Date(this.newSchedule.endAt);
+      endAtDate.setHours(endAtDate.getHours() - 3);
+
+
+      const startAtIso = startAtDate.toISOString();
+      const endAtIso = endAtDate.toISOString();
+
+
+      this.newSchedule.data_agendamento = startAtIso.split('T')[0];
+
       const saved: SaveScheduleModel = {
-        startAt: this.newSchedule.startAt,
-        endAt: this.newSchedule.endAt,
+        startAt: startAtIso,
+        endAt: endAtIso,
         clientId: this.newSchedule.clientId,
         barbeiroId: this.newSchedule.barbeiroId,
         status: 'PENDENTE',
@@ -143,11 +157,13 @@ export class ScheduleCalendarComponent implements OnDestroy, AfterViewInit, OnCh
       };
       console.log('Dados enviados para o componente pai:', saved);
       this.onScheduleClient.emit(saved);
+
+
       form.resetForm();
-      this.newSchedule = { startAt: undefined, endAt: undefined, clientId: this.newSchedule.clientId, barbeiroId: undefined, status: undefined, data_agendamento: undefined };
+      this.newSchedule = { startAt: undefined, endAt: undefined, clientId: this.newSchedule.clientId, barbeiroId: undefined, status: 'PENDENTE', data_agendamento: undefined };
     }
-    //this.router.navigate(['agendamentos/clients/inicio']);
   }
+
 
   requestDelete(schedule: ClientScheduleAppointmentResponse) {
     this.subscription = this.dialogManagerService.showYesNoDialog(
@@ -166,10 +182,11 @@ export class ScheduleCalendarComponent implements OnDestroy, AfterViewInit, OnCh
   }
 
   onTimeChange(time: Date) {
-    const endAt = new Date(time)
-    endAt.setHours(time.getHours() + 1)
-    this.newSchedule.endAt = endAt
+    const endAt = new Date(time);
+    endAt.setHours(time.getHours() + 1);
+    this.newSchedule.endAt = endAt.toISOString();
   }
+
 
   private buildTable() {
     const selectedYear = this._selected.getFullYear();

@@ -39,11 +39,11 @@ export interface SaveScheduleResponse {
 }
 
 export interface SaveScheduleRequest {
-  startAt: Date
-  endAt: Date
+  startAt: string
+  endAt: string
   clientId: number
   barbeiroId: number
-  data_agendamento:Date
+  data_agendamento:string
   status: string
 
 }

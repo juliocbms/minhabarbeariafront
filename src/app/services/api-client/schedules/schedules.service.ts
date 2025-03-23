@@ -16,7 +16,7 @@ export class SchedulesService implements IScheduleService {
   constructor(private http: HttpClient) { }
 
   save(request: SaveScheduleRequest): Observable<SaveScheduleResponse> {
-    return this.http.post<SaveScheduleResponse>(`${this.basePath}schedules`, request)
+    return this.http.post<SaveScheduleResponse>(`${this.basePath}agendamentos/save`, request)
   }
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.basePath}schedules/${id}`)
