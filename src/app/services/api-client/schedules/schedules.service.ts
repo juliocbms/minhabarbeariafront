@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { IScheduleService } from './ischedule.service';
 import { Observable } from 'rxjs';
-import { SaveScheduleRequest, SaveScheduleResponse, ScheduleAppointmentFilterhResponse } from './schedule.models';
+import { ClientScheduleAppointmentResponse, GetAppointmentsRequest, SaveScheduleRequest, SaveScheduleResponse, ScheduleAppointmentFilterhResponse } from './schedule.models';
 import { environment } from '../../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { ClientScheduleAppointmentModel } from '../../../schedules/schedule.models';
@@ -25,9 +25,9 @@ export class SchedulesService implements IScheduleService {
     return this.http.get<ScheduleAppointmentFilterhResponse>(`${this.basePath}schedules/${year}/${month}`)
   }
 
-  getAppointments(request: ScheduleAppointmentFilterhResponse): Observable<ScheduleAppointmentFilterhResponse[]> {
-    return this.http.get<ScheduleAppointmentFilterhResponse[]>(
-      `${this.basePath}agendamentos/clients/inicio/${request.id}?dataInicio=${request.dataInicio}&dataFim=${request.dataFim}&status=${request.status}`
+  getAppointments(request: GetAppointmentsRequest): Observable<ClientScheduleAppointmentResponse[]> {
+    return this.http.get<ClientScheduleAppointmentResponse[]>(
+      `${this.basePath}agendamentos/clients/inicio/${request.id}?dataInicio=${request.startAt}&dataFim=${request.endAt}&status=PENDENTE`
     );
   }
 

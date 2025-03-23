@@ -9,7 +9,7 @@ import { ClientsService } from '../../services/api-client/clients/clients.servic
 import { SnackbarManagerService } from '../../services/snackbar-manager.service';
 import { Subscription } from 'rxjs';
 import { ClientScheduleAppointmentModel, SaveScheduleModel, SelectClientModel } from '../schedule.models';
-import { ClientScheduleAppointementResponse, SaveScheduleRequest, ScheduleAppointmentFilterhResponse } from '../../services/api-client/schedules/schedule.models';
+import { ClientScheduleAppointmentResponse, SaveScheduleRequest, ScheduleAppointmentFilterhResponse } from '../../services/api-client/schedules/schedule.models';
 
 @Component({
   selector: 'app-schedules-month',
@@ -59,7 +59,7 @@ export class SchedulesMonthComponent implements OnInit, OnDestroy {
     this.fetchSchedules(date)
   }
 
-  onConfirmDelete(schedule: ClientScheduleAppointementResponse) {
+  onConfirmDelete(schedule: ClientScheduleAppointmentResponse) {
     this.subscriptions.push(this.httpService.delete(schedule.id).subscribe())
   }
 

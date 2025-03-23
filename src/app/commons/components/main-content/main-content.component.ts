@@ -11,8 +11,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { SchedulesService } from '../../../services/api-client/schedules/schedules.service';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
-import { ScheduleAppointmentFilterhResponse } from '../../../services/api-client/schedules/schedule.models';
-
+import { ClientScheduleAppointmentResponse, GetAppointmentsRequest, ScheduleAppointmentFilterhResponse } from '../../../services/api-client/schedules/schedule.models';
 
 @Component({
   selector: 'app-main-content',
@@ -38,7 +37,6 @@ export class MainContentComponent implements OnInit {
     this.fetchAppointments();
   }
 
-
   fetchAppointments(): void {
     const userId = localStorage.getItem('userId');
 
@@ -50,20 +48,36 @@ export class MainContentComponent implements OnInit {
     const userIdNumber = Number(userId);
     const status = "PENDENTE";
 
-    const request: ScheduleAppointmentFilterhResponse = {
-      id: userIdNumber,
-      dataInicio: '',
-      dataFim: '',
-      status: status,
-      scheduledAppointments: []
 
+    const request: GetAppointmentsRequest = {
+      id: userIdNumber,
+      startAt: '',
+      endAt: '' ,
+      status: status
     };
 
     this.scheduleService.getAppointments(request).subscribe({
-      next: (response: ScheduleAppointmentFilterhResponse[] | null) => {
-        console.log('Resposta do backend:', response);
-        if (response && response.length > 0 && response[0].scheduledAppointments) {
-          this.dataSource.data = response[0].scheduledAppointments;
+      next: (response: ClientScheduleAppointmentResponse[] | null) => {
+        console.log('Resposta da API:', response);
+
+        if (response && response.length > 0) {
+          const mappedData = response.map(appointment => {
+            console.log('Agendamento:', appointment);
+            return {
+              id: appointment.id,
+              clientName: appointment.cliente.name,
+              clientId: appointment.cliente.id,
+              barbeiroName: appointment.barbeiro.name,
+              barbeiroId: appointment.barbeiro.id,
+              day: new Date(appointment.dataAgendamento),
+              startAt: new Date(appointment.startAt * 1000),
+              endAt: new Date(appointment.endAt * 1000),
+              status: appointment.status
+            };
+          })
+
+          console.log('Dados mapeados:', mappedData);
+          this.dataSource.data = mappedData;
         } else {
           console.log('Nenhum agendamento encontrado.');
           this.dataSource.data = [];
@@ -76,9 +90,7 @@ export class MainContentComponent implements OnInit {
     });
   }
 
-
   toggleSidenav(sidenav: any) {
     sidenav.toggle();
   }
-
 }

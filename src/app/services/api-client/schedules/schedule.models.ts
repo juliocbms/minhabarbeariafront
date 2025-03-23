@@ -3,21 +3,30 @@ export interface ScheduleAppointmentFilterhResponse {
   dataInicio?: string
   dataFim?: string
   status?: string
-  year?: number
-  month?:any
-  scheduledAppointments: ClientScheduleAppointementResponse[]
+  scheduledAppointments: ClientScheduleAppointmentResponse[]
 }
 
-export interface ClientScheduleAppointementResponse {
-  id: number
-  day: number
-  startAt: Date
-  endAt: Date
-  clientId: number
-  clientName: string
-  barbeiroId: number
-  barbeiroName: string
-  status: string
+export interface ClientScheduleAppointmentResponse {
+  id: number;
+  barbeiro: {
+    id: number;
+    name: string;
+    email: string;
+    password: string;
+    phone: string;
+  };
+  cliente: {
+    id: number;
+    name: string;
+    email: string;
+    password: string;
+    phone: string;
+  };
+  dataAgendamento: string;
+  dataCadastro: string;
+  startAt: number;
+  endAt: number;
+  status: string;
 }
 
 export interface SaveScheduleResponse {
@@ -37,4 +46,11 @@ export interface SaveScheduleRequest {
   data_agendamento:Date
   status: string
 
+}
+
+export interface GetAppointmentsRequest {
+  id: number;
+  startAt: string;
+  endAt: string;
+  status: string;
 }

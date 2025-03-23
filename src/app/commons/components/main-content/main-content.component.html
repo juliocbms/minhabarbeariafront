@@ -25,50 +25,51 @@
         <mat-card-header>
           <mat-card-title>Próximos agendamentos</mat-card-title>
         </mat-card-header>
-        <mat-card-content >
+        <mat-card-content>
           <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-
+            <!-- Coluna ID -->
             <ng-container matColumnDef="id">
               <th mat-header-cell *matHeaderCellDef> ID </th>
               <td mat-cell *matCellDef="let element"> {{ element.id }} </td>
             </ng-container>
 
-
+            <!-- Coluna Nome do Cliente -->
             <ng-container matColumnDef="clientName">
               <th mat-header-cell *matHeaderCellDef> Cliente </th>
               <td mat-cell *matCellDef="let element"> {{ element.clientName }} </td>
             </ng-container>
 
-
+            <!-- Coluna Nome do Barbeiro -->
             <ng-container matColumnDef="barbeiroName">
               <th mat-header-cell *matHeaderCellDef> Barbeiro </th>
               <td mat-cell *matCellDef="let element"> {{ element.barbeiroName }} </td>
             </ng-container>
 
-
+            <!-- Coluna Data -->
             <ng-container matColumnDef="day">
               <th mat-header-cell *matHeaderCellDef> Data </th>
               <td mat-cell *matCellDef="let element"> {{ element.day | date:'dd/MM/yyyy' }} </td>
             </ng-container>
 
-
+            <!-- Coluna Início -->
             <ng-container matColumnDef="startAt">
               <th mat-header-cell *matHeaderCellDef> Início </th>
               <td mat-cell *matCellDef="let element"> {{ element.startAt | date:'HH:mm' }} </td>
             </ng-container>
 
-
+            <!-- Coluna Fim -->
             <ng-container matColumnDef="endAt">
               <th mat-header-cell *matHeaderCellDef> Fim </th>
               <td mat-cell *matCellDef="let element"> {{ element.endAt | date:'HH:mm' }} </td>
             </ng-container>
 
-
+            <!-- Coluna Status -->
             <ng-container matColumnDef="status">
               <th mat-header-cell *matHeaderCellDef> Status </th>
               <td mat-cell *matCellDef="let element"> {{ element.status }} </td>
             </ng-container>
 
+            <!-- Linhas da Tabela -->
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
           </table>
