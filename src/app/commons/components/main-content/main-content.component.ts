@@ -38,6 +38,7 @@ export class MainContentComponent implements OnInit {
     this.fetchAppointments();
   }
 
+
   fetchAppointments(): void {
     const userId = localStorage.getItem('userId');
 
@@ -45,10 +46,9 @@ export class MainContentComponent implements OnInit {
       console.warn('Nenhum usuário logado.');
       return;
     }
-
+    console.log('User ID do localStorage:', userId);
     const userIdNumber = Number(userId);
-
-    const status = "PENDENTE"
+    const status = "PENDENTE";
 
     const request: ScheduleAppointmentFilterhResponse = {
       id: userIdNumber,
@@ -56,25 +56,29 @@ export class MainContentComponent implements OnInit {
       dataFim: '',
       status: status,
       scheduledAppointments: []
+
     };
 
-
     this.scheduleService.getAppointments(request).subscribe({
-      next: (response: ScheduleAppointmentFilterhResponse[]) => {
-
-        if (response.length > 0) {
-
+      next: (response: ScheduleAppointmentFilterhResponse[] | null) => {
+        console.log('Resposta do backend:', response);
+        if (response && response.length > 0 && response[0].scheduledAppointments) {
           this.dataSource.data = response[0].scheduledAppointments;
         } else {
           console.log('Nenhum agendamento encontrado.');
+          this.dataSource.data = [];
         }
       },
       error: (err) => {
         console.error('Erro ao buscar agendamentos:', err);
+        this.dataSource.data = [];
       }
     });
   }
+
+
   toggleSidenav(sidenav: any) {
     sidenav.toggle();
   }
+
 }
