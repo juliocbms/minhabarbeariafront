@@ -8,7 +8,7 @@ export interface ScheduleAppointementMonthModel {
 export interface ClientScheduleAppointmentModel {
   id: number;
   clientName: string;
-  clientId: number;
+  clienteId: number;
   barbeiroName: string;
   barbeiroId: number;
   day: Date;
@@ -20,10 +20,10 @@ export interface ClientScheduleAppointmentModel {
 export interface SaveScheduleModel {
   startAt?: string
   endAt?: string
-  clientId?: number
+  clienteId?: number
   barbeiroId?: number
   status?: string
-  data_agendamento?: string
+  dataAgendamento?: string
 }
 
 export interface SelectClientModel {

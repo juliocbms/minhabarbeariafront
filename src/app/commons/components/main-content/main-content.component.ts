@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatCard } from '@angular/material/card';
 import { MatCardTitle } from '@angular/material/card';
 import { MatCardHeader } from '@angular/material/card';
@@ -13,7 +13,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { ClientScheduleAppointmentResponse, GetAppointmentsRequest, ScheduleAppointmentFilterhResponse } from '../../../services/api-client/schedules/schedule.models';
 import { Router } from '@angular/router';
-import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-main-content',
@@ -29,6 +29,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
   styleUrl: './main-content.component.scss'
 })
 export class MainContentComponent implements OnInit {
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
   displayedColumns: string[] = ['id', 'clientName', 'barbeiroName', 'day', 'startAt', 'endAt', 'status'];
   dataSource = new MatTableDataSource<ClientScheduleAppointmentModel>([]);
 
@@ -40,6 +41,11 @@ export class MainContentComponent implements OnInit {
 
   ngOnInit(): void {
     this.fetchAppointments();
+  }
+
+  ngAfterViewInit(): void {
+
+    this.dataSource.paginator = this.paginator;
   }
 
   fetchAppointments(): void {
@@ -71,7 +77,7 @@ export class MainContentComponent implements OnInit {
             return {
               id: appointment.id,
               clientName: appointment.cliente.name,
-              clientId: appointment.cliente.id,
+              clienteId: appointment.cliente.id,
               barbeiroName: appointment.barbeiro.name,
               barbeiroId: appointment.barbeiro.id,
               day: new Date(appointment.dataAgendamento),

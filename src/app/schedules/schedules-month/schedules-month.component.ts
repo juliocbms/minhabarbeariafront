@@ -68,8 +68,8 @@ export class SchedulesMonthComponent implements OnInit, OnDestroy {
   }
 
   onScheduleClient(schedule: SaveScheduleModel) {
-    if (schedule.startAt && schedule.endAt && schedule.clientId && schedule.status && schedule.data_agendamento) {
-      const request: SaveScheduleRequest = { startAt: schedule.startAt, endAt: schedule.endAt, clientId: schedule.clientId, barbeiroId: schedule.barbeiroId || 0, status: schedule.status, data_agendamento: schedule.data_agendamento }
+    if (schedule.startAt && schedule.endAt && schedule.clienteId && schedule.status && schedule.dataAgendamento) {
+      const request: SaveScheduleRequest = { startAt: schedule.startAt, endAt: schedule.endAt, clienteId: schedule.clienteId, barbeiroId: schedule.barbeiroId || 0, status: schedule.status, dataAgendamento: schedule.dataAgendamento }
       console.log('Dados enviados para a API:', request);
       this.subscriptions.push(this.httpService.save(request).subscribe(() => {
         this.snackbarManage.show('Agendamento realizado com sucesso')

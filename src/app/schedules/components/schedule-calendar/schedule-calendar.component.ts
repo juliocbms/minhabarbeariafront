@@ -60,7 +60,7 @@ export class ScheduleCalendarComponent implements OnDestroy, AfterViewInit, OnCh
 
   addingSchedule: boolean = false
 
-  newSchedule: SaveScheduleModel = { startAt: undefined, endAt: undefined, clientId: undefined, barbeiroId: undefined, status: undefined, data_agendamento: undefined }
+  newSchedule: SaveScheduleModel = { startAt: undefined, endAt: undefined, clienteId: undefined, barbeiroId: undefined, status: undefined, dataAgendamento: undefined }
 
   clientSelectFormControl = new FormControl()
 
@@ -97,7 +97,7 @@ export class ScheduleCalendarComponent implements OnDestroy, AfterViewInit, OnCh
   }
 
   console.log('User ID do localStorage:', userId);
-  this.newSchedule.clientId = Number(userId);
+  this.newSchedule.clienteId = Number(userId);
   }
 
   get selected(): Date {
@@ -132,7 +132,7 @@ export class ScheduleCalendarComponent implements OnDestroy, AfterViewInit, OnCh
 
   onSubmit(form: NgForm) {
     console.log('onSubmit chamado!', this.newSchedule);
-    if (this.newSchedule.startAt && this.newSchedule.endAt && this.newSchedule.clientId && this.newSchedule.barbeiroId) {
+    if (this.newSchedule.startAt && this.newSchedule.endAt && this.newSchedule.clienteId && this.newSchedule.barbeiroId) {
       this.newSchedule.status = "PENDENTE";
       const startAtDate = new Date(this.newSchedule.startAt);
       startAtDate.setHours(startAtDate.getHours() - 3);
@@ -145,22 +145,22 @@ export class ScheduleCalendarComponent implements OnDestroy, AfterViewInit, OnCh
       const endAtIso = endAtDate.toISOString();
 
 
-      this.newSchedule.data_agendamento = startAtIso.split('T')[0];
+      this.newSchedule.dataAgendamento = startAtIso.split('T')[0];
 
       const saved: SaveScheduleModel = {
         startAt: startAtIso,
         endAt: endAtIso,
-        clientId: this.newSchedule.clientId,
+        clienteId: this.newSchedule.clienteId,
         barbeiroId: this.newSchedule.barbeiroId,
         status: 'PENDENTE',
-        data_agendamento: this.newSchedule.data_agendamento
+        dataAgendamento: this.newSchedule.dataAgendamento
       };
       console.log('Dados enviados para o componente pai:', saved);
       this.onScheduleClient.emit(saved);
-
+      this.router.navigate(['agendamentos/clients/inicio']);
 
       form.resetForm();
-      this.newSchedule = { startAt: undefined, endAt: undefined, clientId: this.newSchedule.clientId, barbeiroId: undefined, status: 'PENDENTE', data_agendamento: undefined };
+      this.newSchedule = { startAt: undefined, endAt: undefined, clienteId: this.newSchedule.clienteId, barbeiroId: undefined, status: 'PENDENTE', dataAgendamento: undefined };
     }
   }
 
