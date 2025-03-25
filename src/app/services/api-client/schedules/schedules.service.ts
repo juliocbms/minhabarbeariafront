@@ -31,4 +31,10 @@ export class SchedulesService implements IScheduleService {
     );
   }
 
+  gettAppointments(request: GetAppointmentsRequest): Observable<ClientScheduleAppointmentResponse[]> {
+    return this.http.get<ClientScheduleAppointmentResponse[]>(
+      `${this.basePath}clients/history${request.id}?dataInicio=${request.startAt}&dataFim=${request.endAt}&status=PENDENTE`
+    );
+  }
+
 }

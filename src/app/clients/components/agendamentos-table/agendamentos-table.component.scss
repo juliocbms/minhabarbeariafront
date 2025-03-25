@@ -1,0 +1,105 @@
+.container{
+  width: 850px;
+  height: 700px;
+  padding-top: 100px;
+}
+
+.data_fim{
+  justify-content: right;
+}
+
+.plano{
+  margin-top: 20px;
+  background-color: white;
+  border-radius: 5px;
+  border: 0px;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.button > .seta{
+  height: 12px;
+  font-size: 14px;
+  font-weight: 300;
+}
+
+.button{
+
+  border: none !important;
+  box-shadow: none !important;
+  font-weight: 500;
+  background-color: white;
+}
+
+.mat-elevation-z8{
+  padding-top: 80px;
+}
+
+.data_fim{
+  padding-left: 50px;
+}
+
+.status{
+  padding-left: 50px;
+}
+
+
+.button_new{
+  border: none !important;
+  box-shadow: none !important;
+  font-weight: 500;
+  background-color: white;
+}
+
+@media (max-width: 900px) {
+  .container {
+    width: 100%;
+    padding: 0 10px;
+  }
+}
+
+@media (max-width: 890px) {
+  .agendamentos {
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  .mat-table {
+    width: 100%;
+    min-width: 320px;
+  }
+
+  .mat-header-row, .mat-row {
+    display: block;
+    width: 100%;
+  }
+
+  table.mat-table th, table.mat-table td {
+    word-wrap: break-word;
+    white-space: normal;
+  }
+}
+
+
+.app-container {
+  display: flex;
+  height: 100vh;
+}
+
+app-side-bar {
+
+  height: 100vh;
+}
+
+.main-content {
+  background-color: #f7f9fa;
+  width: 100%;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+

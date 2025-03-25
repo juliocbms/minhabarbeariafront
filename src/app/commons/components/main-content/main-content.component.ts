@@ -11,7 +11,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { SchedulesService } from '../../../services/api-client/schedules/schedules.service';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
-import { ClientScheduleAppointmentResponse, GetAppointmentsRequest, ScheduleAppointmentFilterhResponse } from '../../../services/api-client/schedules/schedule.models';
+import { ClientScheduleAppointmentResponse, GetAppointmentsRequest} from '../../../services/api-client/schedules/schedule.models';
 import { Router } from '@angular/router';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 

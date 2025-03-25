@@ -1,8 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { filter, map, Subscription } from 'rxjs';
-import { SideBarComponent } from "./commons/components/side-bar/side-bar.component";
-import { MainContentComponent } from "./commons/components/main-content/main-content.component";
+
 
 @Component({
   selector: 'app-root',
