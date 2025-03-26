@@ -99,26 +99,50 @@ export class AgendamentosTableComponent implements OnInit {
       status: formValue.status || ''
     };
 
-    this.scheduleService.gettAppointments(request).subscribe({
-      next: (response) => {
-        if (response) {
+    this.scheduleService.getAppointments(request).subscribe({
+      next: (response: ClientScheduleAppointmentResponse[] | null) => {
+        if (response && response.length > 0) {
+          const mappedData = response.map(appointment => {
+            const dataAgendamento = this.convertToLocalDate(appointment.dataAgendamento);
+            const startAt = this.convertToLocalDateTime(appointment.startAt);
+            const endAt = this.convertToLocalDateTime(appointment.endAt);
 
-          this.dataSource.data = response.map(appointment => ({
-            ...appointment,
-            day: appointment.dataAgendamento,
-            startAt: appointment.startAt,
-            endAt: appointment.endAt
-          }));
+            return {
+              ...appointment, // Mantemos todas as propriedades originais
+              // Adicionamos propriedades para exibição
+              day: dataAgendamento,
+              formattedDay: this.datePipe.transform(dataAgendamento, 'dd/MM/yyyy'),
+              formattedStartAt: this.datePipe.transform(startAt, 'HH:mm'),
+              formattedEndAt: this.datePipe.transform(endAt, 'HH:mm')
+            };
+          });
+
+          console.log('Dados mapeados:', mappedData);
+          this.dataSource.data = mappedData;
         } else {
           this.dataSource.data = [];
         }
       },
-
       error: (err) => {
         console.error('Erro ao buscar agendamentos:', err);
         this.dataSource.data = [];
       }
     });
+  }
+
+  private convertToLocalDateTime(timestamp: number | string): Date {
+    if (typeof timestamp === 'number') {
+      return new Date(timestamp * 1000);
+    }
+    return new Date(timestamp);
+  }
+
+  private convertToLocalDate(dateString: string | Date): Date {
+    if (typeof dateString === 'string') {
+      const [year, month, day] = dateString.split('-').map(Number);
+      return new Date(year, month - 1, day);
+    }
+    return new Date(dateString);
   }
 
   applyFilters(): void {

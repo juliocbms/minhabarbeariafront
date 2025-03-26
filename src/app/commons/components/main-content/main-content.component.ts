@@ -4,7 +4,7 @@ import { MatCardTitle } from '@angular/material/card';
 import { MatCardHeader } from '@angular/material/card';
 import { MatCardContent } from '@angular/material/card';
 import { MatIcon } from '@angular/material/icon';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { SideBarComponent } from "../side-bar/side-bar.component";
 import { ClientScheduleAppointmentModel } from '../../../schedules/schedule.models';
 import { MatTableDataSource } from '@angular/material/table';
@@ -26,7 +26,8 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
     CommonModule, SideBarComponent,
     MatButtonModule, MatTableModule],
   templateUrl: './main-content.component.html',
-  styleUrl: './main-content.component.scss'
+  styleUrl: './main-content.component.scss',
+  providers: [DatePipe]
 })
 export class MainContentComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -36,7 +37,8 @@ export class MainContentComponent implements OnInit {
   selectedStatus: string = '';
 
   constructor(private scheduleService: SchedulesService,
-    private readonly router: Router
+    private readonly router: Router,
+    private datePipe: DatePipe
   ) {}
 
   ngOnInit(): void {
@@ -69,28 +71,33 @@ export class MainContentComponent implements OnInit {
 
     this.scheduleService.getAppointments(request).subscribe({
       next: (response: ClientScheduleAppointmentResponse[] | null) => {
-        console.log('Resposta da API:', response);
-
         if (response && response.length > 0) {
           const mappedData = response.map(appointment => {
-            console.log('Agendamento:', appointment);
+
+            const dataAgendamento = this.convertToLocalDate(appointment.dataAgendamento);
+            const startAt = this.convertToLocalDateTime(appointment.startAt);
+            const endAt = this.convertToLocalDateTime(appointment.endAt);
+
             return {
               id: appointment.id,
               clientName: appointment.cliente.name,
               clienteId: appointment.cliente.id,
               barbeiroName: appointment.barbeiro.name,
               barbeiroId: appointment.barbeiro.id,
-              day: new Date(appointment.dataAgendamento),
-              startAt: new Date(appointment.startAt * 1000),
-              endAt: new Date(appointment.endAt * 1000),
-              status: appointment.status
+              day: dataAgendamento,
+              startAt: startAt,
+              endAt: endAt,
+              status: appointment.status,
+
+              formattedDay: this.datePipe.transform(dataAgendamento, 'dd/MM/yyyy'),
+              formattedStartAt: this.datePipe.transform(startAt, 'HH:mm'),
+              formattedEndAt: this.datePipe.transform(endAt, 'HH:mm')
             };
-          })
+          });
 
           console.log('Dados mapeados:', mappedData);
           this.dataSource.data = mappedData;
         } else {
-          console.log('Nenhum agendamento encontrado.');
           this.dataSource.data = [];
         }
       },
@@ -101,6 +108,7 @@ export class MainContentComponent implements OnInit {
     });
   }
 
+
   toggleSidenav(sidenav: any) {
     sidenav.toggle();
   }
@@ -108,4 +116,22 @@ export class MainContentComponent implements OnInit {
   navigateToNewSchedule(): void {
     this.router.navigate(['agendamentos/save'])
   }
+
+  private convertToLocalDateTime(timestamp: number | string): Date {
+
+    if (typeof timestamp === 'number') {
+      return new Date(timestamp * 1000);
+    }
+
+    return new Date(timestamp);
+
+}
+private convertToLocalDate(dateString: string | Date): Date {
+  if (typeof dateString === 'string') {
+
+    const [year, month, day] = dateString.split('-').map(Number);
+    return new Date(year, month - 1, day);
+  }
+  return new Date(dateString);
+}
 }

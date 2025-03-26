@@ -1,8 +1,6 @@
 export interface ScheduleAppointmentFilterhResponse {
-  id: number
-  dataInicio?: string
-  dataFim?: string
-  status?: string
+  year?: number
+  month?: number
   scheduledAppointments: ClientScheduleAppointmentResponse[]
 }
 

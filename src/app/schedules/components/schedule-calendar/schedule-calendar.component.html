@@ -4,26 +4,26 @@
       <div class="col-12">
           <form #form="ngForm" (ngSubmit)="onSubmit(form)" class="container">
               <div class="row">
-                  <div class="col-4">
-                      <mat-form-field>
-                          <mat-label>Inicio</mat-label>
-                          <input matInput [matTimepicker]="startAtPicker" [ngModelOptions]="{updateOn: 'blur'}"
-                              name="startAt" id="startAt" #startAtModel="ngModel"
-                              (ngModelChange)="onTimeChange($event)" [(ngModel)]="newSchedule.startAt" requied>
-                          <mat-timepicker #startAtPicker />
-                          <mat-timepicker-toggle [for]="startAtPicker" matSuffix />
-                      </mat-form-field>
-                  </div>
-                  <div class="col-4">
-                      <mat-form-field>
-                          <mat-label>Término</mat-label>
-                          <input matInput [matTimepicker]="endAtPicker" [ngModelOptions]="{updateOn: 'blur'}"
-                              name="endAt" id="endAt" #endAtModel="ngModel" [(ngModel)]="newSchedule.endAt"
-                              disabled="true">
-                          <mat-timepicker #endAtPicker />
-                          <mat-timepicker-toggle [for]="endAtPicker" matSuffix />
-                      </mat-form-field>
-                  </div>
+                <div class="col-4">
+                  <mat-form-field>
+                      <mat-label>Inicio</mat-label>
+                      <input matInput [matTimepicker]="startAtPicker" [ngModelOptions]="{updateOn: 'blur'}"
+                          name="startAt" id="startAt" #startAtModel="ngModel"
+                          (ngModelChange)="onTimeChange($event)" [(ngModel)]="newSchedule.startAt" required>
+                      <mat-timepicker #startAtPicker></mat-timepicker>
+                      <mat-timepicker-toggle [for]="startAtPicker" matSuffix></mat-timepicker-toggle>
+                  </mat-form-field>
+              </div>
+              <div class="col-4">
+                  <mat-form-field>
+                      <mat-label>Término</mat-label>
+                      <input matInput [matTimepicker]="endAtPicker" [ngModelOptions]="{updateOn: 'blur'}"
+                          name="endAt" id="endAt" #endAtModel="ngModel" [(ngModel)]="newSchedule.endAt"
+                          disabled="true">
+                      <mat-timepicker #endAtPicker></mat-timepicker>
+                      <mat-timepicker-toggle [for]="endAtPicker" matSuffix></mat-timepicker-toggle>
+                  </mat-form-field>
+              </div>
                   <div class="col-3">
                       <mat-form-field>
                           <mat-label>Selecione o barbeiro</mat-label>
@@ -48,7 +48,7 @@
   <div class="row">
       <div class="col-6">
           <mat-card class="calendar-card">
-              <mat-calendar [(selected)]="selected"></mat-calendar>
+              <mat-calendar [(selected)]="selected" (selectedChange)="selected = $event" ></mat-calendar>
           </mat-card>
       </div>
   </div>

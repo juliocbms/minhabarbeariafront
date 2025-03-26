@@ -11,6 +11,7 @@ import { Subscription } from 'rxjs';
 import {  SaveScheduleModel, SelectClientModel } from '../schedule.models';
 import { SideBarComponent } from '../../commons/components/side-bar/side-bar.component';
 import { ClientScheduleAppointmentResponse, SaveScheduleRequest, ScheduleAppointmentFilterhResponse } from '../../services/api-client/schedules/schedule.models';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-schedules-month',
@@ -26,12 +27,11 @@ import { ClientScheduleAppointmentResponse, SaveScheduleRequest, ScheduleAppoint
   ]
 })
 export class SchedulesMonthComponent implements OnInit, OnDestroy {
+  private subscriptions: Subscription[] = [];
+  private selectedDate: Date = new Date();
 
-  private subscriptions: Subscription[] = []
-  private selectedDate?: Date
-
-  monthSchedule!: ScheduleAppointmentFilterhResponse
-  barbeiros: SelectClientModel[] = []
+  appointments: ClientScheduleAppointmentResponse[] = [];
+  barbeiros: SelectClientModel[] = [];
 
   constructor(
     @Inject(SERVICES_TOKEN.HTTP.SCHEDULE) private readonly httpService: IScheduleService,
@@ -40,7 +40,15 @@ export class SchedulesMonthComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    //this.fetchSchedules(new Date());
+    this.loadBarbers();
+    this.fetchSchedules(this.selectedDate);
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(s => s.unsubscribe());
+  }
+
+  private loadBarbers(): void {
     this.subscriptions.push(
       this.clientHttpService.list().subscribe(data => {
         this.barbeiros = data
@@ -54,36 +62,60 @@ export class SchedulesMonthComponent implements OnInit, OnDestroy {
     );
   }
 
-  ngOnDestroy(): void {
-    this.subscriptions.forEach(s => s.unsubscribe())
-  }
-
   onDateChange(date: Date) {
-    this.selectedDate = date
-    this.fetchSchedules(date)
+    this.selectedDate = date;
+    this.fetchSchedules(date);
   }
 
   onConfirmDelete(schedule: ClientScheduleAppointmentResponse) {
-    this.subscriptions.push(this.httpService.delete(schedule.id).subscribe())
+    this.subscriptions.push(
+      this.httpService.delete(schedule.id).subscribe(() => {
+        this.fetchSchedules(this.selectedDate);
+      })
+    );
   }
 
   onScheduleClient(schedule: SaveScheduleModel) {
     if (schedule.startAt && schedule.endAt && schedule.clienteId && schedule.status && schedule.dataAgendamento) {
-      const request: SaveScheduleRequest = { startAt: schedule.startAt, endAt: schedule.endAt, clienteId: schedule.clienteId, barbeiroId: schedule.barbeiroId || 0, status: schedule.status, dataAgendamento: schedule.dataAgendamento }
-      console.log('Dados enviados para a API:', request);
-      this.subscriptions.push(this.httpService.save(request).subscribe(() => {
-        this.snackbarManage.show('Agendamento realizado com sucesso')
-        if (this.selectedDate) {
-          this.fetchSchedules(this.selectedDate)
-        }
-      }))
+      const request: SaveScheduleRequest = {
+        startAt: schedule.startAt,
+        endAt: schedule.endAt,
+        clienteId: schedule.clienteId,
+        barbeiroId: schedule.barbeiroId || 0,
+        status: schedule.status,
+        dataAgendamento: schedule.dataAgendamento
+      };
+
+      this.subscriptions.push(
+        this.httpService.save(request).subscribe(() => {
+          this.snackbarManage.show('Agendamento realizado com sucesso');
+          this.fetchSchedules(this.selectedDate);
+        })
+      );
     }
   }
 
-  private fetchSchedules(currentDate: Date) {
-    const year = currentDate.getFullYear();
-    const month = currentDate.getMonth() + 1;
-    this.subscriptions.push(this.httpService.listInMonth(year, month).subscribe(data => this.monthSchedule = data));
-  }
+  private fetchSchedules(date: Date) {
+    const formattedDate = new DatePipe('en-US').transform(date, 'yyyy-MM-dd');
 
+    if (!formattedDate) return;
+
+    const userId = localStorage.getItem('userId');
+    if (!userId) {
+        console.error('User ID not found');
+        return;
+    }
+
+    this.subscriptions.push(
+        this.httpService.listByDate(formattedDate).subscribe({
+            next: (data) => {
+                this.appointments = data;
+            },
+            error: (err) => {
+                console.error('Erro ao buscar agendamentos:', err);
+                this.appointments = [];
+            }
+        })
+    );
+}
 }

@@ -48,35 +48,28 @@ import { Router } from '@angular/router';
     }
   ]
 })
-export class ScheduleCalendarComponent implements OnDestroy, AfterViewInit, OnChanges, OnInit {
+export class ScheduleCalendarComponent implements OnDestroy, AfterViewInit, OnInit {
 
   private subscription?: Subscription
-
   private _selected: Date = new Date();
 
   displayedColumns: string[] = ['id', 'clientName', 'barbeiroName', 'startAt', 'endAt', 'status', 'actions'];
-
-  dataSource!: MatTableDataSource<ClientScheduleAppointmentResponse>
-
+  dataSource = new MatTableDataSource<ClientScheduleAppointmentResponse>([]);
   addingSchedule: boolean = false
 
-  newSchedule: SaveScheduleModel = { startAt: undefined, endAt: undefined, clienteId: undefined, barbeiroId: undefined, status: undefined, dataAgendamento: undefined }
+  newSchedule: SaveScheduleModel = {
+    startAt: undefined,
+    endAt: undefined,
+    clienteId: undefined,
+    barbeiroId: undefined,
+    status: undefined,
+    dataAgendamento: undefined
+  }
 
   clientSelectFormControl = new FormControl()
 
-  @Input() monthSchedule!: ScheduleAppointmentFilterhResponse
+  @Input() appointments: ClientScheduleAppointmentResponse[] = [];
   @Input() barbers: SelectClientModel[] = []
-
-  @Input() set clients(clients: SelectClientModel[]) {
-    this._barbers = clients;
-    this.barbers = clients.filter(client => client.role === 'BARBEIRO');
-  }
-
-  get clients(): SelectClientModel[] {
-    return this._barbers;
-  }
-
-  private _barbers: SelectClientModel[] = [];
 
   @Output() onDateChange = new EventEmitter<Date>()
   @Output() onConfirmDelete = new EventEmitter<ClientScheduleAppointmentResponse>()
@@ -84,86 +77,104 @@ export class ScheduleCalendarComponent implements OnDestroy, AfterViewInit, OnCh
 
   @ViewChild(MatPaginator) paginator!: MatPaginator
 
-  constructor(@Inject(SERVICES_TOKEN.DIALOG) private readonly dialogManagerService: IDialogManagerService,
-  private readonly router: Router) { }
-
+  constructor(
+    @Inject(SERVICES_TOKEN.DIALOG) private readonly dialogManagerService: IDialogManagerService,
+    private readonly router: Router
+  ) { }
 
   ngOnInit() {
     const userId = localStorage.getItem('userId');
-
-  if (!userId) {
-    console.warn('Nenhum usuário logado.');
-    return;
-  }
-
-  console.log('User ID do localStorage:', userId);
-  this.newSchedule.clienteId = Number(userId);
+    if (!userId) {
+      console.warn('Nenhum usuário logado.');
+      return;
+    }
+    this.newSchedule.clienteId = Number(userId);
   }
 
   get selected(): Date {
-    return this._selected
+    return this._selected;
   }
 
   set selected(selected: Date) {
     if (this._selected.getTime() !== selected.getTime()) {
-      this.onDateChange.emit(selected)
-      this.buildTable()
-      this._selected = selected
+      this._selected = selected;
+      this.onDateChange.emit(selected);
     }
   }
 
   ngOnDestroy(): void {
     if (this.subscription) {
-      this.subscription.unsubscribe()
+      this.subscription.unsubscribe();
     }
   }
 
   ngAfterViewInit(): void {
-    if (this.dataSource && this.paginator) {
-      this.dataSource.paginator = this.paginator
-    }
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['monthSchedule'] && this.monthSchedule) {
-      this.buildTable()
-    }
+    this.dataSource.paginator = this.paginator;
   }
 
   onSubmit(form: NgForm) {
-    console.log('onSubmit chamado!', this.newSchedule);
     if (this.newSchedule.startAt && this.newSchedule.endAt && this.newSchedule.clienteId && this.newSchedule.barbeiroId) {
-      this.newSchedule.status = "PENDENTE";
-      const startAtDate = new Date(this.newSchedule.startAt);
-      startAtDate.setHours(startAtDate.getHours() - 3);
 
-      const endAtDate = new Date(this.newSchedule.endAt);
-      endAtDate.setHours(endAtDate.getHours() - 3);
+      const selectedDate = new Date(this._selected);
 
+      const startAtDate = this.combineDateAndTime(selectedDate, new Date(this.newSchedule.startAt));
+      const endAtDate = this.combineDateAndTime(selectedDate, new Date(this.newSchedule.endAt));
 
-      const startAtIso = startAtDate.toISOString();
-      const endAtIso = endAtDate.toISOString();
-
-
-      this.newSchedule.dataAgendamento = startAtIso.split('T')[0];
+      const startAtWithOffset = this.formatToOffsetDateTime(startAtDate);
+      const endAtWithOffset = this.formatToOffsetDateTime(endAtDate);
+      const formattedDate = this.formatToBrazilianDate(selectedDate);
 
       const saved: SaveScheduleModel = {
-        startAt: startAtIso,
-        endAt: endAtIso,
+        startAt: startAtWithOffset,
+        endAt: endAtWithOffset,
         clienteId: this.newSchedule.clienteId,
         barbeiroId: this.newSchedule.barbeiroId,
         status: 'PENDENTE',
-        dataAgendamento: this.newSchedule.dataAgendamento
+        dataAgendamento: formattedDate
       };
-      console.log('Dados enviados para o componente pai:', saved);
+
+      console.log('Dados enviados para API:', saved);
       this.onScheduleClient.emit(saved);
-      this.router.navigate(['agendamentos/clients/inicio']);
 
       form.resetForm();
-      this.newSchedule = { startAt: undefined, endAt: undefined, clienteId: this.newSchedule.clienteId, barbeiroId: undefined, status: 'PENDENTE', dataAgendamento: undefined };
+      this.resetNewSchedule();
     }
   }
 
+  private combineDateAndTime(date: Date, time: Date): Date {
+    return new Date(
+      date.getFullYear(),
+      date.getMonth(),
+      date.getDate(),
+      time.getHours(),
+      time.getMinutes(),
+      0
+    );
+  }
+
+  private formatToOffsetDateTime(date: Date): string {
+    const offset = '-03:00';
+
+    const pad = (num: number) => num.toString().padStart(2, '0');
+    return `${date.getFullYear()}-${pad(date.getMonth()+1)}-${pad(date.getDate())}` +
+           `T${pad(date.getHours())}:${pad(date.getMinutes())}:00${offset}`;
+  }
+
+  private formatToBrazilianDate(date: Date): string {
+    const pad = (num: number) => num.toString().padStart(2, '0');
+    return `${date.getFullYear()}-${pad(date.getMonth()+1)}-${pad(date.getDate())}`;
+  }
+
+  private resetNewSchedule() {
+    this.newSchedule = {
+      startAt: undefined,
+      endAt: undefined,
+      clienteId: this.newSchedule.clienteId,
+      barbeiroId: undefined,
+      status: 'PENDENTE',
+      dataAgendamento: undefined
+    };
+  }
 
   requestDelete(schedule: ClientScheduleAppointmentResponse) {
     this.subscription = this.dialogManagerService.showYesNoDialog(
@@ -171,40 +182,16 @@ export class ScheduleCalendarComponent implements OnDestroy, AfterViewInit, OnCh
       { title: 'Exclusão de agendamento', content: 'Confirma a exclusão do agendamento?' }
     ).subscribe(result => {
       if (result) {
-        this.onConfirmDelete.emit(schedule)
-        const updatedList = this.dataSource.data.filter(c => c.id !== schedule.id)
-        this.dataSource = new MatTableDataSource<ClientScheduleAppointmentResponse>(updatedList)
-        if (this.paginator) {
-          this.dataSource.paginator = this.paginator
-        }
+        this.onConfirmDelete.emit(schedule);
+        const updatedList = this.dataSource.data.filter(c => c.id !== schedule.id);
+        this.dataSource.data = updatedList;
       }
-    })
+    });
   }
 
   onTimeChange(time: Date) {
     const endAt = new Date(time);
     endAt.setHours(time.getHours() + 1);
     this.newSchedule.endAt = endAt.toISOString();
-  }
-
-
-  private buildTable() {
-    const selectedYear = this._selected.getFullYear();
-    const selectedMonth = this._selected.getMonth() + 1;
-    const selectedDay = this._selected.getDate();
-
-    const appointments = this.monthSchedule.scheduledAppointments.filter(a => {
-      const appointmentDate = new Date(a.dataAgendamento);
-      return (
-        appointmentDate.getFullYear() === selectedYear &&
-        appointmentDate.getMonth() + 1 === selectedMonth &&
-        appointmentDate.getDate() === selectedDay
-      );
-    });
-
-    this.dataSource = new MatTableDataSource<ClientScheduleAppointmentResponse>(appointments);
-    if (this.paginator) {
-      this.dataSource.paginator = this.paginator
-    }
   }
 }

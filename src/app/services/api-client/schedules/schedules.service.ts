@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { IScheduleService } from './ischedule.service';
-import { Observable } from 'rxjs';
+import { catchError, Observable, of, throwError } from 'rxjs';
 import { ClientScheduleAppointmentResponse, GetAppointmentsRequest, SaveScheduleRequest, SaveScheduleResponse, ScheduleAppointmentFilterhResponse } from './schedule.models';
 import { environment } from '../../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
@@ -36,5 +36,23 @@ export class SchedulesService implements IScheduleService {
       `${this.basePath}clients/history${request.id}?dataInicio=${request.startAt}&dataFim=${request.endAt}&status=PENDENTE`
     );
   }
+
+  listByDate(date: string): Observable<ClientScheduleAppointmentResponse[]> {
+    const userId = localStorage.getItem('userId');
+    if (!userId) {
+        return throwError(() => new Error('User ID not found'));
+    }
+
+    return this.http.get<ClientScheduleAppointmentResponse[]>(
+        `${this.basePath}/clients/history/${userId}?dataInicio=${date}&dataFim=${date}`
+    ).pipe(
+        catchError(error => {
+            if (error.status === 204) {
+                return of([]);
+            }
+            return throwError(() => error);
+        })
+    );
+}
 
 }

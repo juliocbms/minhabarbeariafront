@@ -1,5 +1,5 @@
 import { Observable } from "rxjs";
-import { SaveScheduleRequest, SaveScheduleResponse, ScheduleAppointmentFilterhResponse } from "./schedule.models";
+import { ClientScheduleAppointmentResponse, SaveScheduleRequest, SaveScheduleResponse, ScheduleAppointmentFilterhResponse } from "./schedule.models";
 
 export interface IScheduleService {
 
@@ -10,5 +10,5 @@ export interface IScheduleService {
     listInMonth(year: number, month: number): Observable<ScheduleAppointmentFilterhResponse>
 
 
-
+    listByDate(date: string): Observable<ClientScheduleAppointmentResponse[]>;
 }
