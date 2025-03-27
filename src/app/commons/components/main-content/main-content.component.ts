@@ -48,6 +48,7 @@ export class MainContentComponent implements OnInit {
   ngAfterViewInit(): void {
 
     this.dataSource.paginator = this.paginator;
+    this.paginator.pageSize = 6;
   }
 
   fetchAppointments(): void {
@@ -87,7 +88,7 @@ export class MainContentComponent implements OnInit {
               day: dataAgendamento,
               startAt: startAt,
               endAt: endAt,
-              status: appointment.status,
+              status: "PENDENTE",
 
               formattedDay: this.datePipe.transform(dataAgendamento, 'dd/MM/yyyy'),
               formattedStartAt: this.datePipe.transform(startAt, 'HH:mm'),

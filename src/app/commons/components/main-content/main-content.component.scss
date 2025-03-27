@@ -47,6 +47,7 @@
   height: 400px;
   padding-bottom: 40px;
 
+
 }
 
 .button_new{
@@ -72,6 +73,7 @@
   .mat-table {
     width: 100%;
     min-width: 320px;
+    table-layout: fixed;
   }
 
   .mat-header-row, .mat-row {
@@ -95,6 +97,13 @@ app-side-bar {
 
   height: 100vh;
 }
+.status-pendente {
+  color:#856404;}
+
+  .mat-paginator {
+    width: 100%;
+    box-sizing: border-box;
+  }
 
 .main-content {
   background-color: #f7f9fa;
@@ -105,6 +114,7 @@ app-side-bar {
   flex: 1;
   padding: 20px;
   overflow-y: auto;
+
 }
 
 

@@ -47,6 +47,7 @@ export class NewClientComponent implements OnDestroy{
     const clientData = {
       ...request,
       role: 'CLIENTE'
+
     };
 
 
@@ -64,6 +65,7 @@ export class NewClientComponent implements OnDestroy{
         console.log('Processo de cadastro concluído.');
       }
     });
+    this.router.navigate(['']);
   }
 
 }

@@ -4,7 +4,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { ChangeDetectorRef } from '@angular/core';
 
@@ -26,7 +26,9 @@ export class SideBarComponent implements AfterViewInit {
   @ViewChild('sidenav') sidenav!: MatSidenav;
 
 
-  constructor(private cdr: ChangeDetectorRef) {
+  constructor(private cdr: ChangeDetectorRef,
+    private router: Router
+  ) {
 
   }
 
@@ -44,6 +46,11 @@ export class SideBarComponent implements AfterViewInit {
 
   toggleSidebar() {
     this.isSidebarOpen = !this.isSidebarOpen;
+  }
+
+  logout() {
+
+    this.router.navigate(['']);
   }
 }
 

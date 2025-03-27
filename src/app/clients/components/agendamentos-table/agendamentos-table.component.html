@@ -8,35 +8,6 @@
         </mat-card-header>
 
         <mat-card-content >
-          <form [formGroup]="filterForm" class="filter-container">
-            <mat-form-field appearance="fill">
-              <mat-label>Data Início</mat-label>
-              <input matInput [matDatepicker]="startPicker" formControlName="startDate">
-              <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
-              <mat-datepicker #startPicker></mat-datepicker>
-            </mat-form-field>
-
-            <mat-form-field class="data_fim" appearance="fill">
-              <mat-label >Data Fim</mat-label>
-              <input matInput [matDatepicker]="endPicker" formControlName="endDate">
-              <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
-              <mat-datepicker #endPicker></mat-datepicker>
-            </mat-form-field>
-
-            <mat-form-field class="status" appearance="fill">
-              <mat-label>Status</mat-label>
-              <mat-select formControlName="status">
-                <mat-option *ngFor="let option of statusOptions" [value]="option.value">
-                  {{option.label}}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-
-            <div class="filter-actions">
-              <button mat-raised-button color="primary" (click)="applyFilters()">Filtrar</button>
-              <button mat-button color="warn" (click)="clearFilters()">Limpar</button>
-            </div>
-          </form>
 
           <!-- Tabela -->
           <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">

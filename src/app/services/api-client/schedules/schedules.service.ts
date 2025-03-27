@@ -3,7 +3,7 @@ import { IScheduleService } from './ischedule.service';
 import { catchError, Observable, of, throwError } from 'rxjs';
 import { ClientScheduleAppointmentResponse, GetAppointmentsRequest, SaveScheduleRequest, SaveScheduleResponse, ScheduleAppointmentFilterhResponse } from './schedule.models';
 import { environment } from '../../../../environments/environment';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 
 
 @Injectable({
@@ -27,15 +27,29 @@ export class SchedulesService implements IScheduleService {
 
   getAppointments(request: GetAppointmentsRequest): Observable<ClientScheduleAppointmentResponse[]> {
     return this.http.get<ClientScheduleAppointmentResponse[]>(
-      `${this.basePath}agendamentos/clients/inicio/${request.id}?dataInicio=${request.startAt}&dataFim=${request.endAt}&status=PENDENTE`
+      `${this.basePath}agendamentos/clients/inicio/${request.id}?dataInicio=${request.startAt}&dataFim=${request.endAt}&status=${request.endAt}`
     );
   }
 
   gettAppointments(request: GetAppointmentsRequest): Observable<ClientScheduleAppointmentResponse[]> {
+    let params = new HttpParams()
+        .set('id', request.id.toString());
+
+    if (request.startAt) {
+        params = params.set('dataInicio', request.startAt);
+    }
+    if (request.endAt) {
+        params = params.set('dataFim', request.endAt);
+    }
+    if (request.status) {
+        params = params.set('status', request.status);
+    }
+
     return this.http.get<ClientScheduleAppointmentResponse[]>(
-      `${this.basePath}clients/history${request.id}?dataInicio=${request.startAt}&dataFim=${request.endAt}&status=PENDENTE`
+        `${this.basePath}clients/history/`,
+        { params }
     );
-  }
+}
 
   listByDate(date: string): Observable<ClientScheduleAppointmentResponse[]> {
     const userId = localStorage.getItem('userId');

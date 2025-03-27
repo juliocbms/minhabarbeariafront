@@ -31,11 +31,7 @@ import { MatInputModule } from '@angular/material/input';
     MatCard,
     MatFormFieldModule,
     MatInputModule,
-    MatFormField,
-    MatLabel,
     MatDatepickerModule,
-    MatSelect,
-    MatOption,
     MatCardTitle,
     MatCardHeader,
     ReactiveFormsModule,
@@ -44,8 +40,7 @@ import { MatInputModule } from '@angular/material/input';
     MatIcon,
     MatPaginatorModule,
     CommonModule, SideBarComponent,
-    MatButtonModule, MatTableModule
-  ]
+    MatButtonModule, MatTableModule]
 })
 export class AgendamentosTableComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -108,8 +103,8 @@ export class AgendamentosTableComponent implements OnInit {
             const endAt = this.convertToLocalDateTime(appointment.endAt);
 
             return {
-              ...appointment, // Mantemos todas as propriedades originais
-              // Adicionamos propriedades para exibição
+              ...appointment,
+
               day: dataAgendamento,
               formattedDay: this.datePipe.transform(dataAgendamento, 'dd/MM/yyyy'),
               formattedStartAt: this.datePipe.transform(startAt, 'HH:mm'),
@@ -117,7 +112,7 @@ export class AgendamentosTableComponent implements OnInit {
             };
           });
 
-          console.log('Dados mapeados:', mappedData);
+
           this.dataSource.data = mappedData;
         } else {
           this.dataSource.data = [];

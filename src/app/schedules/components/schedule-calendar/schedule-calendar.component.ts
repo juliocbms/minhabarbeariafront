@@ -139,6 +139,7 @@ export class ScheduleCalendarComponent implements OnDestroy, AfterViewInit, OnIn
       form.resetForm();
       this.resetNewSchedule();
     }
+    this.router.navigate(['agendamentos/clients/inicio']);
   }
 
   private combineDateAndTime(date: Date, time: Date): Date {

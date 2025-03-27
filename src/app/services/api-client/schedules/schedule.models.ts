@@ -47,8 +47,15 @@ export interface SaveScheduleRequest {
 }
 
 export interface GetAppointmentsRequest {
-  id: number;
-  startAt: string;
-  endAt: string;
-  status: string;
+  id: number
+  startAt?: string
+  endAt?: string
+  status?: string
+}
+
+export interface GettAppointmentsRequest {
+
+  startAt?: string
+  endAt?: string
+  status?: string
 }

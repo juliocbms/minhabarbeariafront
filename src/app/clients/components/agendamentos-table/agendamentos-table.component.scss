@@ -1,60 +1,66 @@
-.container{
-  width: 850px;
-  height: 700px;
-  padding-top: 100px;
+.container {
+  max-width: 850px;
+  height: auto;
+  padding: 20px 20px 20px;
+  margin: 0 auto;
 }
 
-.data_fim{
-  justify-content: right;
-}
-
-.plano{
+.plano {
   margin-top: 20px;
   background-color: white;
   border-radius: 5px;
-  border: 0px;
-  border: none !important;
-  box-shadow: none !important;
+  border: none;
+  box-shadow: none;
+  padding: 20px;
 }
 
-.button > .seta{
+.button, .button_new {
+  border: none !important;
+  box-shadow: none !important;
+  font-weight: 500;
+  background-color: white;
+}
+
+.button > .seta {
   height: 12px;
   font-size: 14px;
   font-weight: 300;
 }
 
-.button{
-
-  border: none !important;
-  box-shadow: none !important;
-  font-weight: 500;
-  background-color: white;
+.mat-elevation-z8 {
+  padding-top: 40px;
 }
 
-.mat-elevation-z8{
-  padding-top: 80px;
+.data_fim, .status,.data_inicio {
+  padding-left: 20px;
 }
 
-.data_fim{
-  padding-left: 50px;
+.filter-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 0;
 }
 
-.status{
-  padding-left: 50px;
+.new-schedule-button {
+  margin-top: 10px;
 }
 
-
-.button_new{
-  border: none !important;
-  box-shadow: none !important;
-  font-weight: 500;
-  background-color: white;
-}
 
 @media (max-width: 900px) {
   .container {
     width: 100%;
     padding: 0 10px;
+  }
+
+  .data_fim, .status,.data_inicio {
+    padding-left: 0;
+    width: 80%;
+  }
+
+  .filter-actions {
+    flex-direction: column;
+    align-items: center;
   }
 }
 
@@ -66,20 +72,22 @@
 
   .mat-table {
     width: 100%;
-    min-width: 320px;
+    min-width: 850px;
+    overflow-x: auto;
+    display: block;
   }
 
   .mat-header-row, .mat-row {
-    display: block;
-    width: 100%;
+    display: flex;
+    flex-wrap: nowrap;
   }
 
   table.mat-table th, table.mat-table td {
     word-wrap: break-word;
-    white-space: normal;
+    white-space: nowrap;
+    text-align: center;
   }
 }
-
 
 .app-container {
   display: flex;
@@ -87,19 +95,54 @@
 }
 
 app-side-bar {
-
   height: 100vh;
 }
 
 .main-content {
   background-color: #f7f9fa;
   width: 100%;
-  justify-content: center;
+  justify-content: flex-start;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   flex: 1;
   padding: 20px;
   overflow-y: auto;
+
 }
 
+.agendamentos-card {
+  overflow-x: auto;
+  max-width: 100%;
+}
 
+.mat-paginator {
+  width: 100%;
+  min-width: 850px;
+  display: flex;
+  justify-content: center;
+}
+
+.mat-paginator-container {
+  width: 100%;
+  max-width: 100%;
+}
+
+.status-pendente {
+
+  color: #856404;
+}
+
+.status-confirmado {
+
+  color: #155724;
+}
+
+.status-cancelado {
+
+  color: #721c24;
+}
+
+.status-finalizado {
+
+  color: #0c5460;
+}
