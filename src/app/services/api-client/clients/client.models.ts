@@ -13,6 +13,15 @@ export interface UpdateCLientRequest {
   phone: string
   role: string
 }
+export interface UpdateClientPayload {
+  id: number;
+  currentPassword: string;
+  newPassword: string;
+  name: string;
+  email: string;
+  phone: string;
+  role: string;
+}
 
 export interface SaveCLientResponse {
   id: number
@@ -29,7 +38,6 @@ export interface UpdateCLientResponse {
   name: string
   password: string
   phone: string
-  role: string
 }
 
 export interface ListCLientResponse {

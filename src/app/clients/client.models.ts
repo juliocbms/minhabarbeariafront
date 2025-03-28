@@ -4,7 +4,9 @@ export interface ClientMOdelForm {
   email: string
   phone: string
   password: string
+
 }
+
 
 export interface ClientModelTable {
   id: number

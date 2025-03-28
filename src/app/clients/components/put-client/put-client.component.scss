@@ -1,0 +1,30 @@
+@media (max-width: 900px) {
+  .container {
+    width: 100%;
+    padding: 10px;
+  }
+
+  .main-content {
+    padding-top: 10px;
+    align-items: flex-start;
+  }
+}
+.app-container {
+  display: flex;
+  height: 100vh;
+}
+app-side-bar {
+
+  height: 100vh;
+}
+.main-content {
+  background-color: #f7f9fa;
+  width: 800px;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+
+}

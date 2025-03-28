@@ -33,6 +33,6 @@ export class ClientsService implements IClienteService{
     return this.http.get<ListCLientResponse[]>(`${this.basePath}clients`)
   }
   findByID(id: number): Observable<DetailCLientResponse> {
-    return this.http.get<SaveCLientResponse>(`${this.basePath}clients${id}`)
+    return this.http.get<SaveCLientResponse>(`${this.basePath}clients/${id}`)
   }
 }

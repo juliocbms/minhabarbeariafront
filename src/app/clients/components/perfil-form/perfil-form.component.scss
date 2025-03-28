@@ -1,0 +1,81 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 600px;
+  max-width: 600px;
+  min-height: 800px;
+  margin: 2px auto 0;
+  padding: 20px;
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.row {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 20px;
+}
+
+.fil-col {
+  width: 100%;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+
+
+
+
+
+@media (min-width: 990px) {
+  .container {
+    width: 800px;
+    max-width: 800px;
+  }
+
+  .row .row {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .col-6 {
+    flex: 0 0 calc(50% - 10px);
+  }
+}
+
+
+.botao {
+  margin-top: 20px;
+  padding: 10px 30px;
+  font-size: 16px;
+  background-color: #3f51b5;
+  color: white;
+  border-radius: 4px;
+  width: 100%;
+}
+
+.botao:disabled {
+  background-color: #cccccc;
+}
+
+@media (max-width: 480px) {
+  .container {
+    width: 95%;
+    padding: 15px;
+  }
+
+  .row {
+    gap: 15px;
+  }
+
+  .botao {
+    padding: 8px 20px;
+    font-size: 14px;
+  }
+}

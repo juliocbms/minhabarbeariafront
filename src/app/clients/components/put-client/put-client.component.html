@@ -1,0 +1,14 @@
+<div class="app-container">
+  <app-side-bar></app-side-bar>
+  <div class="main-content">
+<app-perfil-form
+  [client]="clientData"
+  (clienteUpdateded)="onSubmitClient($event)"
+  [disabled]="isLoading">
+</app-perfil-form>
+
+<div *ngIf="isLoading" class="loading-overlay">
+  <mat-spinner></mat-spinner>
+</div>
+</div>
+</div>

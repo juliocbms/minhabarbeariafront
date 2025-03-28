@@ -4,9 +4,11 @@ import { SchedulesMonthComponent } from './schedules/schedules-month/schedules-m
 import { LoginComponent } from './clients/login/login.component';
 import { MainContentComponent } from './commons/components/main-content/main-content.component';
 import { AgendamentosTableComponent } from './clients/components/agendamentos-table/agendamentos-table.component';
+import { PutClientComponent } from './clients/components/put-client/put-client.component';
 
 export const routes: Routes = [
   { path: '', component: LoginComponent, data: { title: 'Login' } },
+  { path: 'clients', component: PutClientComponent, data: { title: 'Atualizar' } },
   {
     path: 'agendamentos',
     children: [
