@@ -103,12 +103,12 @@ export class PutClientComponent implements OnInit, OnDestroy {
 
     this.isLoading = true;
 
-    // Extrai os dados do formulário (exceto id)
+
     const { id, ...requestData } = value;
 
-    // Adiciona a role
+
     const request = {
-      id: userId, // Garante que o ID está incluído
+      id: userId,
       name: value.name,
       email: value.email,
       phone: value.phone,
