@@ -2,9 +2,12 @@
 
 A responsive and dynamic scheduling interface for a barbershop, built with **Angular**. This app allows users to register, log in, and manage their appointments with ease.
 
-### 📊 Linguagens mais usadas
-
-![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=juliocbms&repo=minhabarbeariafront&layout=compact&theme=transparent)
+## Tecnologias Utilizadas
+![Angular](https://img.shields.io/badge/Angular-100%25-red)
+![TypeScript](https://img.shields.io/badge/TypeScript-95%25-blue)
+![HTML5](https://img.shields.io/badge/HTML5-70%25-lightgray)
+![CSS3](https://img.shields.io/badge/CSS3-60%25-blue)
+![Angular Material](https://img.shields.io/badge/Angular_Material-30%25-green)
 
 ## 📌 Features
 
