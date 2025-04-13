@@ -1,59 +1,76 @@
-# Barbeariafront
+# 💈 Barber Shop - Frontend
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.1.5.
+A responsive and dynamic scheduling interface for a barbershop, built with **Angular**. This app allows users to register, log in, and manage their appointments with ease.
 
-## Development server
+## 📌 Features
 
-To start a local development server, run:
+- 🧾 **Authentication**: JWT-based login and registration
+- 📅 **Scheduling System**: Choose a date, time, and barber for appointments
+- 🧹 **Appointment Management**: View and delete scheduled appointments
+- 🔄 **Reactive Forms**: With custom validations and error feedback
+- 🧠 **Stateful Services**: Centralized logic and API communication
+
+---
+
+## 🛠 Technologies
+
+- Angular 17+
+- TypeScript
+- Angular Material
+- RxJS
+- CSS Flexbox/Grid
+- Angular Forms (ReactiveFormsModule)
+- Angular Router
+- HttpClientModule
+
+---
+
+## 🎨 UI Highlights
+
+- ✅ ngIf, ngFor, ngSwitch
+- 📦 Two-way Data Binding: `{{}}`, `[]`, `()`, and `ngModel`
+- 🎯 Responsive layout with Angular Material and custom CSS
+- 🧩 Component-based architecture for reusability
+
+---
+
+## 🔗 API Integration
+
+Uses HttpClient to connect with the backend REST API. Ensure the backend is running and accessible.
+
+```ts
+this.http.post('/api/schedule', appointmentData)
+```
+
+---
+
+## 🚀 Running Locally
 
 ```bash
+npm install
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+App will be available at: `http://localhost:4200`
 
-## Code scaffolding
+---
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## 🗂 Project Structure
 
 ```bash
-ng generate --help
+src
+├── app
+│   ├── components
+│   ├── pages
+│   ├── services
+│   ├── models
+│   └── app-routing.module.ts
+├── assets
+└── environments
 ```
 
-## Building
+---
 
-To build the project run:
+## 📄 License
 
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+This project is open-source and available under the [MIT License](LICENSE).
